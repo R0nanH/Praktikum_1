@@ -45,11 +45,6 @@ for file in os.listdir(directory):
     hashValAsString = str(hashVal)
     avlTree.insert(hashValAsString, fileDirectory)
 
-
-def get(image):
-    avlTree.find(image)
-
-
 print(":::::::AVL-Tree:::::::")
 for item in testList:
     startTime = round(time.time() * 1000)
