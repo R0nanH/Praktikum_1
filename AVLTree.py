@@ -1,6 +1,14 @@
 from typing import List
 
 
+def calculate_hamming_distance(key1, key2):
+    hamming_distance = 0
+    for element in range(0, len(key1)):
+        if key1[element] is not key2[element]:
+            hamming_distance = hamming_distance + 1
+    return hamming_distance
+
+
 class AVLTree:
     def __init__(self):
         self.root = None
@@ -138,12 +146,12 @@ class AVLTree:
     def _find_most_similar(self, key, cur_node):
         cur_node_int_key = int("0x" + cur_node.key, 16)
         int_key = int("0x" + key, 16)
-        cur_node_similarity = abs(cur_node_int_key - int_key)
+        cur_node_ham_dist = calculate_hamming_distance(cur_node.key, key)
         if cur_node.key is key:
             if cur_node.left_child is None and cur_node.right_child is None:
                 return cur_node.parent
             elif cur_node.left_child is not None and cur_node.right_child is not None:
-                if abs(int("0x" + cur_node.left_child.key, 16) - int_key) <= abs(int("0x" + cur_node.right_child.key, 16) - int_key):
+                if calculate_hamming_distance(cur_node.left_child.key, key) <= calculate_hamming_distance(cur_node.right_child.key, key):
                     return cur_node.left_child
                 else:
                     return cur_node.right_child
@@ -152,8 +160,8 @@ class AVLTree:
             else:
                 return cur_node.left_child
         else:
-            print(cur_node_similarity)
-            if cur_node_similarity <= abs(int(cur_node.left_child.key, 16) - int_key) and cur_node_similarity <= abs(int(cur_node.right_child.key, 16) - int_key):
+            print(cur_node_ham_dist)
+            if cur_node_ham_dist <= calculate_hamming_distance(cur_node.left_child.key, key) and cur_node_ham_dist <= calculate_hamming_distance(cur_node.right_child.key, key):
                 return cur_node
             elif key < cur_node.key and cur_node.left_child is not None:
                 return self._find_most_similar(key, cur_node.left_child)

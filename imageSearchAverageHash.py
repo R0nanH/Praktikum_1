@@ -5,13 +5,18 @@ import time
 from AVLTree import AVLTree
 from AVLTree import node
 
+collisions = 0
 imageDict = dict()
+collisionDict = dict()
 directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/airplanes/"
 directory = os.fsencode(directoryAsStr)
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
     fileDirectory = directoryAsStr + filename
     hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    if imageDict.get(hashVal) is not None:
+        collisions = collisions + 1
+        collisionDict[fileDirectory] = imageDict.get(hashVal)
     imageDict[hashVal] = fileDirectory
 
 directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/BACKGROUND_Google/"
@@ -20,6 +25,8 @@ for file in os.listdir(directory):
     filename = os.fsdecode(file)
     fileDirectory = directoryAsStr + filename
     hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    if imageDict.get(hashVal) is not None:
+        collisions = collisions + 1
     imageDict[hashVal] = fileDirectory
 
 directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/watch/"
@@ -28,14 +35,18 @@ for file in os.listdir(directory):
     filename = os.fsdecode(file)
     fileDirectory = directoryAsStr + filename
     hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    if imageDict.get(hashVal) is not None:
+        collisions = collisions + 1
     imageDict[hashVal] = fileDirectory
 
-# directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/Faces/"
-# for file in os.listdir(directory):
-# filename = os.fsdecode(file)
-# fileDirectory = directoryAsStr + filename
-# hashVal = imagehash.average_hash(Image.open(fileDirectory))
-# imageDict[hashVal] = fileDirectory
+directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/Faces_easy/"
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    fileDirectory = directoryAsStr + filename
+    hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    if imageDict.get(hashVal) is not None:
+        collisions = collisions + 1
+    imageDict[hashVal] = fileDirectory
 
 testList = [
     "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/airplanes/image_0026.jpg",
@@ -46,6 +57,8 @@ testList = [
     "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/Faces/image_0435.jpg"
 ]
 print(":::::::Hashtable:::::::")
+print("Total collisions: ", collisions)
+print(collisionDict.items())
 for item in testList:
     execTime = time.time() * 1000
     print(imageDict.get(imagehash.average_hash(Image.open(item))))
@@ -71,6 +84,24 @@ for file in os.listdir(directory):
     avlTree.insert(hashValAsString, fileDirectory)
 
 directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/airplanes/"
+directory = os.fsencode(directoryAsStr)
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    fileDirectory = directoryAsStr + filename
+    hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    hashValAsString = str(hashVal)
+    avlTree.insert(hashValAsString, fileDirectory)
+
+directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/watch/"
+directory = os.fsencode(directoryAsStr)
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    fileDirectory = directoryAsStr + filename
+    hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    hashValAsString = str(hashVal)
+    avlTree.insert(hashValAsString, fileDirectory)
+
+directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/Faces_easy/"
 directory = os.fsencode(directoryAsStr)
 for file in os.listdir(directory):
     filename = os.fsdecode(file)
