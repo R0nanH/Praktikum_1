@@ -135,6 +135,24 @@ for file in os.listdir(directory):
     hashValAsString = str(hashVal)
     avlTree.insert(hashValAsString, fileDirectory)
 
+directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/watch/"
+directory = os.fsencode(directoryAsStr)
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    fileDirectory = directoryAsStr + filename
+    hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    hashValAsString = str(hashVal)
+    avlTree.insert(hashValAsString, fileDirectory)
+
+directoryAsStr = "C:/Users/Ronan/Documents/TH_Köln/Algorithmik/Praktikum/Praktikum_1/101_ObjectCategories/Faces_easy/"
+directory = os.fsencode(directoryAsStr)
+for file in os.listdir(directory):
+    filename = os.fsdecode(file)
+    fileDirectory = directoryAsStr + filename
+    hashVal = imagehash.average_hash(Image.open(fileDirectory))
+    hashValAsString = str(hashVal)
+    avlTree.insert(hashValAsString, fileDirectory)
+
 print(":::::::AVL-Tree:::::::")
 for item in testList:
     startTime = time.time() * 1000
