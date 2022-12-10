@@ -5,6 +5,46 @@ import time
 from AVLTree import AVLTree
 from AVLTree import node
 
+
+def calculate_hamming_distance(key1, key2):
+    hamming_distance = 0
+    for element in range(0, len(key1)):
+        if key1[element] is not key2[element]:
+            hamming_distance = hamming_distance + 1
+    return hamming_distance
+
+
+def get_most_similar(avltree, key):
+    if avltree.root is not None:
+        return _get_most_similar(key, avltree.root)
+    else:
+        return None
+
+
+def _get_most_similar(key, cur_node):
+    cur_node_ham_dist = calculate_hamming_distance(cur_node.key, key)
+    if cur_node.key is key:
+        if cur_node.left_child is None and cur_node.right_child is None:
+            return cur_node.parent
+        elif cur_node.left_child is not None and cur_node.right_child is not None:
+            if calculate_hamming_distance(cur_node.left_child.key, key) <= calculate_hamming_distance(cur_node.right_child.key, key):
+                return cur_node.left_child
+            else:
+                return cur_node.right_child
+        elif cur_node.left_child is None:
+            return cur_node.right_child
+        else:
+            return cur_node.left_child
+    else:
+        print(cur_node_ham_dist)
+        if cur_node_ham_dist <= calculate_hamming_distance(cur_node.left_child.key, key) and cur_node_ham_dist <= calculate_hamming_distance(cur_node.right_child.key, key):
+            return cur_node
+        elif key < cur_node.key and cur_node.left_child is not None:
+            return _get_most_similar(key, cur_node.left_child)
+        elif key > cur_node.key and cur_node.right_child is not None:
+            return _get_most_similar(key, cur_node.right_child)
+
+
 collisions = 0
 imageDict = dict()
 collisionDict = dict()
@@ -109,7 +149,7 @@ for item in testList:
 print(":::::::AVL-Tree(Most Similar):::::::")
 for item in testList:
     startTime = time.time() * 1000
-    print(avlTree.find_most_similar(str(imagehash.dhash(Image.open(item)))).pBucket)
+    print(get_most_similar(avlTree, str(imagehash.dhash(Image.open(item)))).pBucket)
     execTime = time.time() * 1000 - startTime
     print("Execution time:", execTime)
 
